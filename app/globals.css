@@ -227,6 +227,69 @@ h3 {
 
 /* Hero */
 
+/* Full-bleed dark backdrop for the lightning; it fades into the page colour at the bottom. */
+.hero-wrap {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: #05070f;
+    color: #fff;
+}
+
+.hero-wrap::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 28vh;
+    z-index: 1;
+    pointer-events: none;
+    /* Clear for the first quarter so the white "Scroll" cue stays on dark. */
+    background: linear-gradient(180deg, rgba(208, 203, 199, 0) 25%, var(--color-background) 100%);
+}
+
+.hero-storm {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.lightning {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Keep the copy readable where the bolt passes behind it. */
+.hero-storm::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 15% 50%, rgba(5, 7, 15, 0.55), transparent 70%);
+}
+
+.hero {
+    color: #fff;
+}
+
+.hero .lede {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.hero .eyebrow {
+    color: var(--color-titan-light) !important;
+}
+
+.hero .scroll-cta i {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.hero .scroll-cta i::after {
+    background: #fff;
+}
+
 .hero h1 {
     font-size: calc(var(--font-size-large) * 1.35);
     max-width: 10ch;

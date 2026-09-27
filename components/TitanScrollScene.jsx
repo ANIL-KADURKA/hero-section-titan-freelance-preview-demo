@@ -6,6 +6,7 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
+import Lightning from './Lightning';
 
 const MODEL_URL =
   'https://res.cloudinary.com/df6tfgugw/raw/upload/v1790497894/titan_logo_3d_xldzso.obj';
@@ -296,6 +297,14 @@ export default function TitanScrollScene() {
         scrollTrigger: { trigger: root, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
       });
 
+      // The storm behind the hero drifts up and dims as the hero scrolls away.
+      gsap.to('.hero-storm', {
+        yPercent: -18,
+        autoAlpha: 0.15,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero-wrap', scrub: true, start: 'top top', end: 'bottom top' },
+      });
+
       // Parallax on the sky/ground gradient and clouds.
       gsap.to('.ground', {
         yPercent: 12,
@@ -531,16 +540,23 @@ export default function TitanScrollScene() {
         <span>Titan Freelance</span>
       </div>
 
-      <div className="section hero" id="top">
-        <p className="eyebrow reveal-up">Contract work, done right</p>
-        <h1>Titan Freelance.</h1>
-        <h3 className="reveal-up">The layer between companies and the people who do the work.</h3>
-        <p className="lede reveal-up">
-          Companies bring the contracts. You bring the skills. Titan handles everything in between.
-        </p>
-        <div className="scroll-cta">
-          <span>Scroll</span>
-          <i />
+      <div className="hero-wrap">
+        {/* hue 230 ≈ Titan blue; the negative offset puts the bolt behind the logo on the right. */}
+        <div className="hero-storm">
+          <Lightning hue={228} xOffset={-0.55} speed={0.9} intensity={0.9} size={1.3} />
+        </div>
+
+        <div className="section hero" id="top">
+          <p className="eyebrow reveal-up">Contract work, done right</p>
+          <h1>Titan Freelance.</h1>
+          <h3 className="reveal-up">The layer between companies and the people who do the work.</h3>
+          <p className="lede reveal-up">
+            Companies bring the contracts. You bring the skills. Titan handles everything in between.
+          </p>
+          <div className="scroll-cta">
+            <span>Scroll</span>
+            <i />
+          </div>
         </div>
       </div>
 
