@@ -7,6 +7,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import Lightning from './Lightning';
+import Galaxy from './Galaxy';
 
 const MODEL_URL =
   'https://res.cloudinary.com/df6tfgugw/raw/upload/v1790497894/titan_logo_3d_xldzso.obj';
@@ -198,8 +199,9 @@ class Scene {
       view.camera.updateProjectionMatrix();
     }
 
-    // Positions are authored for a ~16:9 screen; shrink everything on narrower ones.
-    const s = Math.max(0.42, Math.min(1, aspect / 1.6));
+    // Positions are authored for a ~16:9 screen; shrink everything on narrower ones,
+    // and on short ones (phones in landscape), where the copy leaves little room.
+    const s = Math.max(0.42, Math.min(1, aspect / 1.6, this.h / 620));
     this.stage.scale.setScalar(s);
 
     this.renderer.setSize(this.w, this.h);
@@ -444,12 +446,39 @@ export default function TitanScrollScene() {
         );
 
         // Portrait screens: text sits in the top half, so park the logo in the bottom half,
-        // then lift it above the heading for the finale (whose text is bottom-aligned).
+        // lift it into the empty space above the cards for the horizontal section (the cards
+        // are bottom-aligned), then above the heading for the finale (also bottom-aligned).
         mm = gsap.matchMedia();
         mm.add('(max-aspect-ratio: 1/1)', () => {
           gsap.set(stage.position, { y: -38 });
+          gsap.fromTo(
+            stage.position,
+            { y: -38 },
+            {
+              y: 47,
+              ease: 'power2.inOut',
+              immediateRender: false,
+              scrollTrigger: { trigger: '.features', start: 'top bottom', end: 'top top', scrub: 1 },
+            }
+          );
+          gsap.fromTo(
+            stage.position,
+            { y: 47 },
+            {
+              y: 24,
+              ease: 'power2.inOut',
+              immediateRender: false,
+              scrollTrigger: { trigger: '.s-end', start: 'top bottom', end: 'top top', scrub: 1 },
+            }
+          );
+          return () => gsap.set(stage.position, { y: 0 });
+        });
+
+        // Short landscape (phones on their side): the finale copy fills most of the height,
+        // so lift the logo into the gap under the nav.
+        mm.add('(max-height: 500px) and (min-aspect-ratio: 1/1)', () => {
           gsap.to(stage.position, {
-            y: 24,
+            y: 22,
             ease: 'power2.inOut',
             scrollTrigger: { trigger: '.s-end', start: 'top bottom', end: 'top top', scrub: 1 },
           });
@@ -560,9 +589,15 @@ export default function TitanScrollScene() {
         </div>
       </div>
 
-      <div className="section right s-companies">
-        <h2>Companies need work done…</h2>
-        <p>Projects, sprints, backlogs — without another full-time hire.</p>
+      <div className="galaxy-wrap">
+        {/* Theme-tinted star field, only behind this screen. */}
+        <div className="galaxy-bg">
+          <Galaxy density={1.2} glowIntensity={0.35} twinkleIntensity={0.4} rotationSpeed={0.05} opacity={0.9} />
+        </div>
+        <div className="section right s-companies">
+          <h2>Companies need work done…</h2>
+          <p>Projects, sprints, backlogs — without another full-time hire.</p>
+        </div>
       </div>
 
       <div className="ground-container">

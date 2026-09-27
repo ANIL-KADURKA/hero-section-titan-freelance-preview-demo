@@ -340,6 +340,46 @@ h3 {
     100% { transform: translateX(100%); }
 }
 
+/* ---------- Galaxy ("Companies need work done…") ---------- */
+
+.galaxy-wrap {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--color-background);
+}
+
+.galaxy-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    /* Fade out at the top and bottom so the stars melt into the hero fade and the sky below. */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+.galaxy {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* A soft paper-coloured wash behind the copy so dots never fight the heading. */
+.galaxy-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 45% 55% at 85% 50%, rgba(208, 203, 199, 0.75), transparent 70%);
+}
+
+@media (max-aspect-ratio: 1/1) {
+    /* Portrait: the copy sits at the top (see the portrait block below). */
+    .galaxy-bg::after {
+        background: radial-gradient(ellipse 90% 40% at 70% 22%, rgba(208, 203, 199, 0.8), transparent 70%);
+    }
+}
+
 /* ---------- Sky / ground ---------- */
 
 .ground-container {
@@ -647,6 +687,47 @@ a {
 
     .hero h3 {
         font-size: 19px;
+    }
+}
+
+/* Short landscape (phones on their side): the desktop type sizes eat the whole screen,
+   and the feature cards are too short for their copy. */
+@media (max-height: 500px) and (min-aspect-ratio: 1/1) {
+    :root {
+        --font-size-large: 34px;
+        --font-size-medium: 18px;
+        --font-size-normal: 14px;
+    }
+
+    .section {
+        padding-top: 70px;
+        padding-bottom: 5vmin;
+    }
+
+    .hero h1 {
+        font-size: 46px;
+    }
+
+    .feature-card {
+        height: 72vh;
+        padding: 18px 22px;
+    }
+
+    .feature-letter {
+        font-size: 64px;
+    }
+
+    .feature-card h3 {
+        margin: 6px 0 4px;
+    }
+
+    .feature-card p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .features-track {
+        padding-bottom: 14vh;
     }
 }
 
