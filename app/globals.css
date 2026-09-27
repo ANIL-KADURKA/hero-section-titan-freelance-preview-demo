@@ -40,6 +40,22 @@ html {
     box-sizing: border-box;
 }
 
+/* ---------- Coin cursor ---------- */
+/* Titan-blue coin everywhere; inverted (solid blue) coin over anything clickable.
+   Hotspot is the coin's centre. !important so library/inline cursors can't override it. */
+
+html, body, *, *::before, *::after {
+    cursor: url(/cursor-coin.png) 16 16, auto !important;
+    cursor: -webkit-image-set(url(/cursor-coin.png) 1x, url(/cursor-coin@2x.png) 2x) 16 16, auto !important;
+}
+
+a, a *, button, button *, label, select, summary,
+[role="button"], [role="button"] *, [onclick], input[type="submit"],
+input[type="button"], input[type="checkbox"], input[type="radio"] {
+    cursor: url(/cursor-coin-pointer.png) 16 16, pointer !important;
+    cursor: -webkit-image-set(url(/cursor-coin-pointer.png) 1x, url(/cursor-coin-pointer@2x.png) 2x) 16 16, pointer !important;
+}
+
 html, body {
     min-height: 100%;
     font-family: var(--font-serif);
